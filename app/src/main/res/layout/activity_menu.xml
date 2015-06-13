@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@drawable/background_01"
+    android:id="@+id/linear">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Liquid Menu"
+        android:id="@+id/header"
+        android:layout_gravity="center_horizontal"
+        android:textSize="23dp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="40dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="70dp">
+
+        <TableRow>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:id="@+id/btnLogin"
+                android:padding="70dp"
+                android:alpha="0.8" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop"
+                android:id="@+id/btnShop"
+                android:padding="70dp"
+                android:alpha="0.8" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SEARCH"
+                android:id="@+id/btnSearch"
+                android:paddingTop="70dp"
+                android:paddingBottom="70dp"
+                android:paddingRight="62dp"
+                android:paddingLeft="65dp"
+                android:alpha="0.8" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GPS"
+                android:id="@+id/btnGPS"
+                android:padding="70dp"
+                android:alpha="0.8" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+</LinearLayout>
