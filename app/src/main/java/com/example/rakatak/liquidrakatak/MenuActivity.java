@@ -3,29 +3,34 @@ package com.example.rakatak.liquidrakatak;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 
 public class MenuActivity extends ActionBarActivity {
+
+
+    Button btnLogin, btnShop, btnGPS, btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
-        Button btnShop = (Button) findViewById(R.id.btnShop);
-        Button btnSearch = (Button) findViewById(R.id.btnSearch);
-        Button btnGPS = (Button) findViewById(R.id.btnGPS);
+        prepareButtonMenu();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -34,7 +39,7 @@ public class MenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -43,7 +48,7 @@ public class MenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -56,6 +61,35 @@ public class MenuActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+
+    public void prepareButtonMenu(){
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnShop = (Button) findViewById(R.id.btnShop);
+        btnSearch = (Button) findViewById(R.id.btnSearch);
+        btnGPS = (Button) findViewById(R.id.btnGPS);
+
+        final TableLayout tableLayout = (TableLayout) findViewById(R.id.menuTable);
+        ViewTreeObserver vto = tableLayout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                tableLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int btnWidth  = tableLayout.getMeasuredWidth()/2 - 3;
+                Log.d("Output", "RESULT    " + btnWidth);
+
+                btnLogin.setHeight(btnWidth);
+                btnShop.setHeight(btnWidth);
+                btnSearch.setHeight(btnWidth);
+                btnGPS.setHeight(btnWidth);
+                btnLogin.setWidth(btnWidth);
+                btnShop.setWidth(btnWidth);
+                btnSearch.setWidth(btnWidth);
+                btnGPS.setWidth(btnWidth);
+            }
+        });
+
     }
 
 }

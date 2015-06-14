@@ -23,48 +23,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="30dp"
+        android:id="@+id/menuTable">
 
-        <TableRow>
-
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="match_parent">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Account"
                 android:id="@+id/btnLogin"
-                android:padding="70dp"
-                android:alpha="0.8" />
+                android:alpha="0.8"
+                android:height="150dp"
+                android:width="150dp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shop"
                 android:id="@+id/btnShop"
-                android:padding="70dp"
+                android:height="150dp"
+                android:width="150dp"
                 android:alpha="0.8" />
 
         </TableRow>
 
-        <TableRow>
-
+        <TableRow android:layout_width="match_parent">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SEARCH"
                 android:id="@+id/btnSearch"
-                android:paddingTop="70dp"
-                android:paddingBottom="70dp"
-                android:paddingRight="62dp"
-                android:paddingLeft="65dp"
-                android:alpha="0.8" />
+                android:alpha="0.8"
+                android:width="150dp"
+                android:height="130dp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GPS"
                 android:id="@+id/btnGPS"
-                android:padding="70dp"
-                android:alpha="0.8" />
+                android:alpha="0.8"
+                android:width="150dp"
+                android:height="150dp" />
 
         </TableRow>
 
