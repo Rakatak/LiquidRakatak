@@ -61,7 +61,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onStart();
 
         if (authenticate() == true){
-            displayUserDetails();
+            Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
+            startActivity(intent);
+            //displayUserDetails();
         }
     }
 
@@ -317,14 +319,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                User user = new User(null,  null);
+//                User user = new User(null,  null, null);
 
-                userStore.storeUserData(user);
+//                userStore.storeUserData(user);
                 userStore.setUserLoggedIn(true);
-                finish();
-                Intent intent = new Intent(getApplicationContext() , MainActivity.class);
-                intent.putExtra("LoggedIn", true);
+                Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
+                intent.putExtra("loggedIn", true);
                 startActivity(intent);
+                finish();
+
 
             } else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);

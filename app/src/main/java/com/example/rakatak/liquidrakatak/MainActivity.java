@@ -9,10 +9,15 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
+    UserStore userStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userStore = new UserStore(this);
+        userStore.setUserLoggedIn(false);
 
         Button btnOne = (Button) findViewById(R.id.startbutton);
         btnOne.setOnClickListener(new View.OnClickListener() {
