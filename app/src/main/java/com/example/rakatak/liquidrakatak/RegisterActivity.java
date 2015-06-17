@@ -130,12 +130,10 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 3;
     }
 
@@ -258,7 +256,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             if (success) {
                 User user = new User(mName, mEmail, mPassword);
                 userStore.setUserLoggedIn(true);
-//                userStore.storeUserData(user);
+                userStore.storeUserData(user);
 
                 Intent intent = new Intent(getApplicationContext() , UserDetailActivity.class);
                 intent.putExtra("name", user.name);

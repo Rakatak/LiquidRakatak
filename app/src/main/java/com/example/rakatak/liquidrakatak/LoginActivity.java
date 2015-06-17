@@ -305,7 +305,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                
+
                 User user = new User("default",  mEmail, mPassword);
 
 //              userStore.storeUserData(user);
