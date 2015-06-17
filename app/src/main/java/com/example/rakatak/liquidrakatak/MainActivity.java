@@ -19,6 +19,7 @@ public class MainActivity extends ActionBarActivity {
         userStore = new UserStore(this);
         userStore.setUserLoggedIn(false);
 
+
         Button btnOne = (Button) findViewById(R.id.startbutton);
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -18,11 +18,13 @@ public class MenuActivity extends ActionBarActivity {
 
 
     Button btnLogin, btnShop, btnGPS, btnSearch;
+    UserStore userStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        userStore = new UserStore(this);
 
         prepareButtonMenu();
 
@@ -30,8 +32,18 @@ public class MenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
+                if (userStore.getUserLoggedIn()){
+                    User user = userStore.getLoggedUser();
+
+                    Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
+                    intent.putExtra("name", user.name);
+                    intent.putExtra("email", user.email);
+                    intent.putExtra("password", user.password);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

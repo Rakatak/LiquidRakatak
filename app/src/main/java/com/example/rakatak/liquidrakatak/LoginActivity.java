@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,26 +57,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     UserStore userStore;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        if (authenticate() == true){
-            Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
-            startActivity(intent);
-            //displayUserDetails();
-        }
-    }
-
-    private boolean authenticate(){
-        return userStore.getUserLoggedIn();
-    }
-
-    private void displayUserDetails(){
-        User user  = userStore.getLoggedUser();
-
-        //TODO set labels to show user or make new intent (easier)
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +99,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (userStore.getUserLoggedIn() == true){
+            Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void populateAutoComplete() {
@@ -177,12 +170,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 3;
     }
 
@@ -292,8 +283,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
                 // Simulate network access.
                 Thread.sleep(3000);
@@ -304,12 +293,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
-                    System.out.println("Yrsh");
-                    // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
             }
-
             return false;
         }
 
@@ -319,15 +305,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-//                User user = new User(null,  null, null);
+                
+                User user = new User("default",  mEmail, mPassword);
 
-//                userStore.storeUserData(user);
+//              userStore.storeUserData(user);
+
                 userStore.setUserLoggedIn(true);
                 Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
-                intent.putExtra("loggedIn", true);
+                intent.putExtra("name", user.name);
+                intent.putExtra("password", user.password);
+                intent.putExtra("email", user.email);
+
                 startActivity(intent);
                 finish();
-
 
             } else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
@@ -340,8 +330,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 });
                 AlertDialog alertDialog = alert.create();
                 alertDialog.show();
-//                mPasswordView.setError("Password or Email incorrect");
-                 mEmailView.requestFocus();
+                mEmailView.requestFocus();
             }
         }
 
@@ -350,6 +339,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
 

@@ -39,6 +39,9 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
     private EditText mEmailView;
     private EditText mPasswordView;
     private View mRegisterFormView;
+    private View mProgressView;
+
+    private UserStore userStore;
 
     private UserRegisterTask mAuthTask = null;
 
@@ -46,11 +49,13 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        userStore = new UserStore(this);
 
         // Set up the register form.
+        mNameView = (EditText) findViewById(R.id.nameField);
         mEmailView = (EditText) findViewById(R.id.emailField);
-        populateAutoComplete();
         mPasswordView = (EditText) findViewById(R.id.passwordField);
+
         Button registerButton = (Button) findViewById(R.id.btnRegister);
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -59,10 +64,8 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             }
         });
         mRegisterFormView = findViewById(R.id.register_form);
-    }
+        mProgressView = findViewById(R.id.login_progress);
 
-    private void populateAutoComplete() {
-        getLoaderManager().initLoader(0, null, this);
     }
 
 
@@ -89,9 +92,9 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
         boolean cancel = false;
         View focusView = null;
 
-        if (!TextUtils.isEmpty(name)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
+        if (TextUtils.isEmpty(name)) {
+            mNameView.setError(getString(R.string.error_field_required));
+            focusView = mNameView;
             cancel = true;
         }
 
@@ -136,27 +139,40 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
         return password.length() > 3;
     }
 
+
     /**
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
+            mRegisterFormView .setVisibility(show ? View.GONE : View.VISIBLE);
+            mRegisterFormView .animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mRegisterFormView .setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
-
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
         } else {
-
-            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mRegisterFormView .setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -204,6 +220,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
     }
 
 
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -240,11 +257,16 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
 
             if (success) {
                 User user = new User(mName, mEmail, mPassword);
+                userStore.setUserLoggedIn(true);
+//                userStore.storeUserData(user);
 
-                finish();
+                Intent intent = new Intent(getApplicationContext() , UserDetailActivity.class);
+                intent.putExtra("name", user.name);
+                intent.putExtra("email", user.email);
+                intent.putExtra("password", user.password);
 
-                Intent intent = new Intent(getApplicationContext() , MainActivity.class);
                 startActivity(intent);
+                finish();
 
             } else {
                 mEmailView.requestFocus();
