@@ -1,13 +1,17 @@
-package com.example.rakatak.liquidrakatak;
+package com.example.rakatak.liquidrakatak.datalogic;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.rakatak.liquidrakatak.datalogic.user.User;
+import com.example.rakatak.liquidrakatak.datalogic.user.UserEntryContract;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,7 +21,7 @@ import java.io.OutputStream;
 /**
  * Created by
  Juan-Manuel Fluxà on 03.03.09.
- Modified by Rakatak alias Robin Steller 18.06.15.
+ Modified by Robin Steller alias Rakatak 18.06.15.
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -150,14 +154,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
+        User user;
         // 4. build user object
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_NAME));
-        String email = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_EMAIL));
-        String password = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_PASSWORD));
-        Log.d("HAHAHAHAHAHA LOGIN", name + "   " + email + "    " + password);
-        User user = new User(name, email, password);
+        try {
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_NAME));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_EMAIL));
+            String password = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_PASSWORD));
+            Log.d("LOGIN", name + "   " + email + "    " + password);
+            user = new User(name, email, password);
+        } catch (CursorIndexOutOfBoundsException e){
+            throw e;
+        } finally {
+            db.close();
+        }
 
-        db.close();
         return user;
 
     }
@@ -173,12 +183,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(UserEntryContract.UserEntry.COLUMN_NAME_EMAIL, mEmail);
         values.put(UserEntryContract.UserEntry.COLUMN_NAME_PASSWORD, mPassword);
 
-        db.insert(UserEntryContract.UserEntry.TABLE_NAME_USER, // table
+        try {
+
+            db.insert(UserEntryContract.UserEntry.TABLE_NAME_USER, // table
                 null, //nullColumnHack
                 values); // key/value -> keys = column names/ values = column values
 
-        db.close();
-
+        } catch (Exception e){
+            throw e;
+        } finally {
+            db.close();
+        }
         return;
 
     }
@@ -194,16 +209,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
-
-    // Add your public helper methods to access and get content from the database.
-    // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
-    // to you to create adapters for your views.
 
 }

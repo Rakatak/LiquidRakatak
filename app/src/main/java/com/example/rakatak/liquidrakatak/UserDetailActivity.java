@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.rakatak.liquidrakatak.datalogic.user.UserStore;
+
 /**
  * Created by robins on 15.06.15.
  */

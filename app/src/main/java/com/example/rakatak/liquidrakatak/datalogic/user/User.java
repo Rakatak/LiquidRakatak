@@ -1,11 +1,11 @@
-package com.example.rakatak.liquidrakatak;
+package com.example.rakatak.liquidrakatak.datalogic.user;
 
 /**
  * Created by Robin on 14.06.2015.
  */
 public class User {
 
-    String name, email, password;
+    public String name, email, password;
 
     public User(String name, String email, String password){
         this.name = name;

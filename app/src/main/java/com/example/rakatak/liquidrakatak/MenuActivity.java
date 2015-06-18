@@ -3,15 +3,14 @@ package com.example.rakatak.liquidrakatak;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
-import android.widget.TextView;
+
+import com.example.rakatak.liquidrakatak.datalogic.user.User;
+import com.example.rakatak.liquidrakatak.datalogic.user.UserStore;
 
 
 public class MenuActivity extends ActionBarActivity {
@@ -51,7 +50,7 @@ public class MenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
                 startActivity(intent);
             }
         });
@@ -60,7 +59,7 @@ public class MenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -69,7 +68,7 @@ public class MenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext() , LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext() , GPSActivity.class);
                 startActivity(intent);
             }
         });

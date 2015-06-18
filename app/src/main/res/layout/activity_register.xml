@@ -5,8 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.rakatak.liquidrakatak.LoginActivity"
-    android:background="@drawable/background_01">
+    tools:context="com.example.rakatak.liquidrakatak.LoginActivity">
 
     <!-- Login progress -->
 
@@ -42,7 +41,8 @@
                 android:id="@+id/nameField"
                 android:textColorHint="#c5c5c5"
                 android:hint="Please enter name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="#ffffffff" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -51,7 +51,8 @@
                 android:ems="10"
                 android:id="@+id/emailField"
                 android:textColorHint="#c5c5c5"
-                android:hint="Please enter Email Adress" />
+                android:hint="Please enter Email Adress"
+                android:textColor="#ffffffff" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -61,7 +62,8 @@
                 android:hint="Please enter Password"
                 android:textColorHint="#c5c5c5"
                 android:password="false"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="#ffffffff" />
 
             <Button
                 style="@style/Base.Widget.AppCompat.Button"

@@ -6,28 +6,25 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.example.rakatak.liquidrakatak.datalogic.DataBaseHelper;
+import com.example.rakatak.liquidrakatak.datalogic.user.User;
+import com.example.rakatak.liquidrakatak.datalogic.user.UserStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,8 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         userStore = new UserStore(this);
+
+        getWindow().setBackgroundDrawableResource(R.drawable.background_01);
 
         // Set up the register form.
         mNameView = (EditText) findViewById(R.id.nameField);
@@ -100,7 +99,12 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             cancel = true;
         }
 
-        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
@@ -239,17 +243,17 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
                 DataBaseHelper dbHelper = new DataBaseHelper(getApplicationContext());
                 dbHelper.addUser(mName, mEmail, mPassword);
-
-                // Simulate network access.
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 return false;
+            } catch (Exception e) {
+                return false;
             }
+
             return true;
         }
 
@@ -272,6 +276,16 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
                 finish();
 
             } else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this);
+                alert.setTitle("Register Failed");
+                alert.setMessage("We have no idea what happened!").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
                 mEmailView.requestFocus();
             }
         }

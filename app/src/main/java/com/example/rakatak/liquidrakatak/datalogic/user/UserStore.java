@@ -1,4 +1,4 @@
-package com.example.rakatak.liquidrakatak;
+package com.example.rakatak.liquidrakatak.datalogic.user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
