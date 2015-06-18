@@ -31,25 +31,29 @@ public class SearchActivity extends ActionBarActivity implements ActionBar.OnNav
         getWindow().setBackgroundDrawableResource(R.drawable.background_01);
 
         // Set up the action bar to show a dropdown list.
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
         // Show the Up button in the action bar.
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Set up the dropdown list navigation in the action bar.
-        actionBar.setListNavigationCallbacks(
-                // Specify a SpinnerAdapter to populate the dropdown list.
-                new ArrayAdapter<String>(
-                        actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
-                        new String[]{
-                                getString(R.string.title_section1),
-                                getString(R.string.title_section2),
-                                getString(R.string.title_section3),
-                        }),
-                this);
+
+
+//        actionBar.setListNavigationCallbacks(
+//                // Specify a SpinnerAdapter to populate the dropdown list.
+//                new ArrayAdapter<String>(
+//                        actionBar.getThemedContext(),
+//                        android.R.layout.simple_list_item_1,
+//                        android.R.id.text1,
+//                        new String[]{
+//                                getString(R.string.title_section1),
+//                                getString(R.string.title_section2),
+//                                getString(R.string.title_section3),
+//                        }),
+//                this);
     }
 
     @Override
