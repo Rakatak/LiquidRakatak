@@ -6,11 +6,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -240,6 +242,9 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             // TODO: attempt authentication against a network service.
 
             try {
+                DataBaseHelper dbHelper = new DataBaseHelper(getApplicationContext());
+                dbHelper.addUser(mName, mEmail, mPassword);
+
                 // Simulate network access.
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

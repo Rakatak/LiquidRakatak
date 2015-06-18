@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -275,6 +276,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
+        private User mUser;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -284,19 +286,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                // Simulate network access.
+                DataBaseHelper dbHelper = new DataBaseHelper(getApplicationContext());
+                mUser = dbHelper.getUser(mEmail);
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    return pieces[1].equals(mPassword);
-                }
-            }
-            return false;
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+            return true;
         }
 
         @Override
@@ -306,15 +309,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
 
-                User user = new User("default",  mEmail, mPassword);
-
-//              userStore.storeUserData(user);
-
+                userStore.storeUserData(mUser);
                 userStore.setUserLoggedIn(true);
+
                 Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
-                intent.putExtra("name", user.name);
-                intent.putExtra("password", user.password);
-                intent.putExtra("email", user.email);
+                intent.putExtra("name", mUser.name);
+                intent.putExtra("password", mUser.password);
+                intent.putExtra("email", mUser.email);
 
                 startActivity(intent);
                 finish();

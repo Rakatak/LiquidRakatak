@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.IOException;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -19,7 +21,12 @@ public class MainActivity extends ActionBarActivity {
         userStore = new UserStore(this);
         userStore.setUserLoggedIn(false);
 
-
+        try {
+            DataBaseHelper dbHelper = new DataBaseHelper(getApplicationContext());
+            dbHelper.createDataBase();
+        } catch (IOException e) {
+            System.exit(0);
+        }
         Button btnOne = (Button) findViewById(R.id.startbutton);
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
