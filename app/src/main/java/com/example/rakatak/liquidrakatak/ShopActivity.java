@@ -1,6 +1,9 @@
 package com.example.rakatak.liquidrakatak;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -9,6 +12,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.TextView;
+
+import com.example.rakatak.liquidrakatak.datalogic.article.ArticleIDs;
+import com.example.rakatak.liquidrakatak.datalogic.article.ArticleView;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class ShopActivity extends ActionBarActivity
@@ -25,7 +37,12 @@ public class ShopActivity extends ActionBarActivity
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
+    protected static final CharSequence LIQUID = "Liquid Products";
+    protected final CharSequence SOLID = "Solid Products";
+    protected final CharSequence GASEOUS = "Gaseous Products";
+
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private GridLayout mGridLayout;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -38,6 +55,10 @@ public class ShopActivity extends ActionBarActivity
         setContentView(R.layout.activity_shop);
         getWindow().setBackgroundDrawableResource(R.drawable.background_01);
 
+        mGridLayout = (GridLayout) findViewById(R.id.articleGrid);
+
+
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -47,6 +68,8 @@ public class ShopActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
     }
 
     @Override
@@ -61,13 +84,16 @@ public class ShopActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = "Liquid Products";
+                mTitle = LIQUID;
+                fillStoreArticles(number, mGridLayout);
                 break;
             case 2:
-                mTitle = "Solid Products";
+                mTitle = SOLID;
+                fillStoreArticles(number, mGridLayout);
                 break;
             case 3:
-                mTitle = "Gaseous Products";
+                mTitle = GASEOUS;
+                fillStoreArticles(number, mGridLayout);
                 break;
         }
     }
@@ -148,4 +174,45 @@ public class ShopActivity extends ActionBarActivity
         }
     }
 
+    private Drawable getImageFromAsset(String strName){
+        AssetManager assetManager = getAssets();
+        InputStream istr = null;
+        try {
+            istr = assetManager.open(strName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Drawable d = Drawable.createFromStream(istr, null);
+        return d;
+    }
+
+    private void fillStoreArticles(int number, GridLayout gridLayout){
+        int i = 0;
+        gridLayout.removeAllViews();
+        switch (number) {
+            case 1:
+                for (int id : ArticleIDs.ALL_ARTICLES_XBOX){
+                    gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
+                    i++;
+                }
+                break;
+            case 2:
+                for (int id : ArticleIDs.ALL_ARTICLES_PS4){
+                    gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
+                    i++;
+                }
+                break;
+            case 3:
+                for (int id : ArticleIDs.ALL_ARTICLES_XBOX){
+                    gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
+                    i++;
+                }                break;
+        }
+
+        if (mTitle.equals("Liquid Products")){
+
+        }
+
+        gridLayout.addView(new ArticleView(getApplicationContext(), ArticleIDs.ps4_1), 1 );
+    }
 }
