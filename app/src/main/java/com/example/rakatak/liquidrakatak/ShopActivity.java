@@ -1,33 +1,22 @@
 package com.example.rakatak.liquidrakatak;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.KeyEvent;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
-import android.widget.TextView;
-
 
 import com.example.rakatak.liquidrakatak.datalogic.article.ArticleIDs;
 import com.example.rakatak.liquidrakatak.datalogic.article.ArticleView;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 
 public class ShopActivity extends ActionBarActivity
@@ -41,8 +30,8 @@ public class ShopActivity extends ActionBarActivity
     protected final CharSequence SOLID = "Solid Products";
     protected final CharSequence GASEOUS = "Gaseous Products";
 
-    private GridLayout mGridLayout;
 
+    private GridLayout mGridLayout;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -54,9 +43,9 @@ public class ShopActivity extends ActionBarActivity
         setContentView(R.layout.activity_shop);
         getWindow().setBackgroundDrawableResource(R.drawable.background_01);
 
+
+
         mGridLayout = (GridLayout) findViewById(R.id.articleGrid);
-
-
 
 
         mShopNavigationDrawerFragment = (ShopNavigationDrawerFragment)
@@ -173,17 +162,6 @@ public class ShopActivity extends ActionBarActivity
         }
     }
 
-    private Drawable getImageFromAsset(String strName){
-        AssetManager assetManager = getAssets();
-        InputStream istr = null;
-        try {
-            istr = assetManager.open(strName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Drawable d = Drawable.createFromStream(istr, null);
-        return d;
-    }
 
     private void fillStoreArticles(int number, GridLayout gridLayout){
         int i = 0;
@@ -191,7 +169,14 @@ public class ShopActivity extends ActionBarActivity
         switch (number) {
             case 1:
                 for (int id : ArticleIDs.ALL_ARTICLES_XBOX){
-                    gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
+                    ArticleView av = new ArticleView(getApplicationContext(), id);
+                    av.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            av.
+                        }
+                    });
+                    gridLayout.addView(av, i);
                     i++;
                 }
                 break;
@@ -205,13 +190,8 @@ public class ShopActivity extends ActionBarActivity
                 for (int id : ArticleIDs.ALL_ARTICLES_XBOX){
                     gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
                     i++;
-                }                break;
+                }
+                break;
         }
-
-        if (mTitle.equals("Liquid Products")){
-
-        }
-
-        gridLayout.addView(new ArticleView(getApplicationContext(), ArticleIDs.ps4_1), 1 );
     }
 }
