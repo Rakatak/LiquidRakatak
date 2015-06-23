@@ -284,7 +284,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Boolean doInBackground(Void... params) {
             try {
                 DataBaseHelper dbHelper = new DataBaseHelper(getApplicationContext());
-                mUser = dbHelper.getUser(mEmail);
+                mUser = dbHelper.getUser(mEmail, mPassword);
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 return false;

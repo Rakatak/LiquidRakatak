@@ -134,14 +134,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public User getUser(String mEmail) throws SQLException {
+    public User getUser(String mEmail, String mPassword) throws SQLException {
 
-        // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // 2. build query
         Cursor cursor =
-                db.query(UserEntryContract.UserEntry.TABLE_NAME_USER, // a. table
+                db.query(UserEntryContract.UserEntry.TABLE_NAME_USER,
                         UserEntryContract.UserEntry.COLUMNS, // b. column names
                         "Email=?", // c. selections
                         new String[] { mEmail }, // d. selections args
@@ -154,18 +152,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        User user;
+        final User user;
+        final String password;
+        final String name;
+        final String email;
         // 4. build user object
         try {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_NAME));
-            String email = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_EMAIL));
-            String password = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_PASSWORD));
+            name = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_NAME));
+            email = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_EMAIL));
+            password = cursor.getString(cursor.getColumnIndexOrThrow(UserEntryContract.UserEntry.COLUMN_NAME_PASSWORD));
             Log.d("LOGIN", name + "   " + email + "    " + password);
             user = new User(name, email, password);
         } catch (CursorIndexOutOfBoundsException e){
             throw e;
         } finally {
             db.close();
+        }
+        if (!password.equals(mPassword)){
+            throw new CursorIndexOutOfBoundsException(2, 0);
         }
 
         return user;

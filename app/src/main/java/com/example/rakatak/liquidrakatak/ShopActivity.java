@@ -173,7 +173,7 @@ public class ShopActivity extends ActionBarActivity
                     av.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            av.
+                            //TODO zoom and text
                         }
                     });
                     gridLayout.addView(av, i);
