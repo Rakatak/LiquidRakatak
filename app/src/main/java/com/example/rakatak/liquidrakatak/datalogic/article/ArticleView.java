@@ -7,6 +7,7 @@ import android.view.Display;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -20,6 +21,7 @@ public class ArticleView extends ImageView{
 
     public int drawId;
     private Context context;
+    public GridLayout.LayoutParams layoutP;
 
     public ArticleView(Context context) {
         super(context);
@@ -29,27 +31,21 @@ public class ArticleView extends ImageView{
         super(context);
         this.context = context;
         this.drawId = drawId;
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        this.layoutP = new GridLayout.LayoutParams();
+        scaleImage();
 
-
-
-
-        lp.setMargins(50, 50, 50, 50);
-        lp.setMarginEnd(50);
-        lp.setMarginStart(50);
-        this.setImageResource(drawId);
-//        this.setScaleType(ScaleType.FIT_XY);
-        this.setLayoutParams(lp);
-        this.getLayoutParams().height = 260;
-        this.getLayoutParams().width = 200;
 
     }
 
     private void scaleImage(){
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
+        this.setScaleType(ScaleType.FIT_XY);
+        this.setImageResource(drawId);
+        layoutP.width = display.getWidth()/3 - (int)(display.getWidth() * 0.04655) ;
+        layoutP.height = (int) (layoutP.width * 1.30);
+        layoutP.setMargins(10, 10, 15 , 15);
+        this.setLayoutParams(layoutP);
     }
 
 

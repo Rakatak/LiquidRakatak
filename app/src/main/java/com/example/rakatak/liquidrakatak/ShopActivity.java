@@ -46,7 +46,9 @@ public class ShopActivity extends ActionBarActivity
 
 
         mGridLayout = (GridLayout) findViewById(R.id.articleGrid);
-
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        params.setMargins(20, 20, 20 , 20);
+//        mGridLayout.setLayoutParams(params);
 
         mShopNavigationDrawerFragment = (ShopNavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
