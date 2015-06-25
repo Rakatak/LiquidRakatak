@@ -11,47 +11,33 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <activity
-            android:name=".MenuActivity" >
+        <activity android:name=".MenuActivity" >
         </activity>
-
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
-
-
         <activity
             android:name=".RegisterActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
-
-
-        <activity
-            android:name=".UserDetailActivity" >
+        <activity android:name=".UserDetailActivity" >
         </activity>
-
-
         <activity
             android:name=".ShopActivity"
             android:label="@string/title_activity_shop"
@@ -60,8 +46,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rakatak.liquidrakatak.MenuActivity" />
         </activity>
-
-
         <activity
             android:name=".GPSActivity"
             android:label="@string/title_activity_gps"
@@ -70,20 +54,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rakatak.liquidrakatak.MenuActivity" />
         </activity>
-
-
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:parentActivityName=".MenuActivity" >
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.rakatak.liquidrakatak.MenuActivity"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"
+                android:value="com.example.rakatak.liquidrakatak.MenuActivity" />
         </activity>
-
-
+        <activity
+            android:name=".ArticleDetailActivity"
+            android:label="@string/title_activity_article_detail"
+            android:parentActivityName=".ShopActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rakatak.liquidrakatak.ShopActivity" />
+        </activity>
     </application>
 
 </manifest>

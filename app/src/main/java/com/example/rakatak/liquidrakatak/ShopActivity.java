@@ -1,13 +1,13 @@
 package com.example.rakatak.liquidrakatak;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 
-import com.example.rakatak.liquidrakatak.datalogic.article.ArticleIDs;
+import com.example.rakatak.liquidrakatak.datalogic.article.Article;
+import com.example.rakatak.liquidrakatak.datalogic.article.ArticleEntries;
 import com.example.rakatak.liquidrakatak.datalogic.article.ArticleView;
 
 
@@ -168,32 +169,32 @@ public class ShopActivity extends ActionBarActivity
     private void fillStoreArticles(int number, GridLayout gridLayout){
         int i = 0;
         gridLayout.removeAllViews();
+        Article[] entry = null;
+
         switch (number) {
             case 1:
-                for (int id : ArticleIDs.ALL_ARTICLES_XBOX){
-                    ArticleView av = new ArticleView(getApplicationContext(), id);
-                    av.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO zoom and text
-                        }
-                    });
-                    gridLayout.addView(av, i);
-                    i++;
-                }
+                entry = ArticleEntries.ALL_ARTICLES_XBOX;
                 break;
             case 2:
-                for (int id : ArticleIDs.ALL_ARTICLES_PS4){
-                    gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
-                    i++;
-                }
+                entry = ArticleEntries.ALL_ARTICLES_PS4;
                 break;
             case 3:
-                for (int id : ArticleIDs.ALL_ARTICLES_XBOX){
-                    gridLayout.addView(new ArticleView(getApplicationContext(), id), i);
-                    i++;
-                }
+                entry = ArticleEntries.ALL_ARTICLES_XBOX;
                 break;
+        }
+
+        for (final Article item : entry){
+            ArticleView av = new ArticleView(getApplicationContext(), item.getImageId());
+            av.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext() , ArticleDetailActivity.class);
+                    intent.putExtra("article", item);
+                    startActivity(intent);
+                }
+            });
+            gridLayout.addView(av, i);
+            i++;
         }
     }
 }

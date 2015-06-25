@@ -46,12 +46,8 @@
                 android:textColor="#ffffff"
                 android:password="false" />
 
-            <Button android:id="@+id/email_sign_in_button" style="@style/Base.Widget.AppCompat.Button"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="60dp" android:text="Login"
-                android:textStyle="bold"
-                android:background="@drawable/abc_ab_share_pack_mtrl_alpha"
-                android:textColor="#ffffff" />
+            <Button android:id="@+id/email_sign_in_button" style="@style/centerButtonStyle"
+                android:text="Login" />
 
             <Button
                 style="@style/Base.Widget.AppCompat.Button"

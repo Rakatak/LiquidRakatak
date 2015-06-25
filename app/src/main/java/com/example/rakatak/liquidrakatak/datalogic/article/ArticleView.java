@@ -33,8 +33,6 @@ public class ArticleView extends ImageView{
         this.drawId = drawId;
         this.layoutP = new GridLayout.LayoutParams();
         scaleImage();
-
-
     }
 
     private void scaleImage(){
@@ -42,11 +40,12 @@ public class ArticleView extends ImageView{
         Display display = wm.getDefaultDisplay();
         this.setScaleType(ScaleType.FIT_XY);
         this.setImageResource(drawId);
-        layoutP.width = display.getWidth()/3 - (int)(display.getWidth() * 0.04655) ;
+        this.
+        layoutP.width = display.getWidth()/3 - (int)(display.getWidth() * 0.05555) ;
         layoutP.height = (int) (layoutP.width * 1.30);
-        layoutP.setMargins(10, 10, 15 , 15);
+        int marginW = (int)(display.getWidth() * 0.01846666666);
+        layoutP.setMargins(marginW, (int)(marginW*1.2), marginW, (int)(marginW*1.2));
         this.setLayoutParams(layoutP);
     }
-
 
 }
