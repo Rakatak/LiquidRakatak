@@ -31,6 +31,7 @@ public class ArticleView extends ImageView{
         super(context);
         this.context = context;
         this.drawId = drawId;
+        this.setId(R.id.articleImage);
         this.layoutP = new GridLayout.LayoutParams();
         scaleImage();
     }

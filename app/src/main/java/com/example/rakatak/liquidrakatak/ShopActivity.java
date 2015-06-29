@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.rakatak.liquidrakatak.datalogic.article.Article;
 import com.example.rakatak.liquidrakatak.datalogic.article.ArticleEntries;
@@ -73,6 +76,7 @@ public class ShopActivity extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
+        Article[] entry = null;
         switch (number) {
             case 1:
                 mTitle = LIQUID;
@@ -179,7 +183,7 @@ public class ShopActivity extends ActionBarActivity
                 entry = ArticleEntries.ALL_ARTICLES_PS4;
                 break;
             case 3:
-                entry = ArticleEntries.ALL_ARTICLES_XBOX;
+                entry = ArticleEntries.ALL_ARTICLES_WII;
                 break;
         }
 
@@ -188,12 +192,21 @@ public class ShopActivity extends ActionBarActivity
             av.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext() , ArticleDetailActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
                     intent.putExtra("article", item);
                     startActivity(intent);
                 }
             });
-            gridLayout.addView(av, i);
+            LinearLayout rl = new LinearLayout(getApplicationContext());
+            rl.setOrientation(LinearLayout.VERTICAL);
+            TextView tv = new TextView(getApplicationContext());
+            tv.setText(Double.toString(item.getPrice()).replace(".", ",") + "€");
+            tv.setId(R.id.articlePrice);
+            rl.addView(av, 0);
+            rl.addView(tv, 1);
+            rl.setId(R.id.articleBox);
+
+            gridLayout.addView(rl, i);
             i++;
         }
     }

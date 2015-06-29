@@ -6,8 +6,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/search"
         android:title="@string/abc_searchview_description_search"
-        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
-        app:showAsAction="collapseActionView|ifRoom"
-        android:actionViewClass="android.widget.SearchView" />
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"
+        android:iconifiedByDefault="true"/>
 
 </menu>

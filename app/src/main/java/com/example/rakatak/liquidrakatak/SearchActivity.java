@@ -1,11 +1,14 @@
 package com.example.rakatak.liquidrakatak;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,10 +16,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.rakatak.liquidrakatak.datalogic.article.Article;
+import com.example.rakatak.liquidrakatak.datalogic.article.ArticleEntries;
+import com.example.rakatak.liquidrakatak.datalogic.article.ArticleView;
+
+import java.util.ArrayList;
 
 
-public class SearchActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
+public class SearchActivity extends ActionBarActivity {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -24,36 +38,53 @@ public class SearchActivity extends ActionBarActivity implements ActionBar.OnNav
      */
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
+    private GridLayout mGridLayout;
+    private TextView mEnter;
+    private FrameLayout mContainerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        mContainerLayout = (FrameLayout) findViewById(R.id.container);
+        mGridLayout = (GridLayout) findViewById(R.id.articleGrid);
+        mEnter = (TextView) findViewById(R.id.enter);
+
         getWindow().setBackgroundDrawableResource(R.drawable.background_01);
 
-        // Set up the action bar to show a dropdown list.
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        try {
+            handleIntent(getIntent());
+        } catch (InterruptedException e){
+        }
+    }
 
-        // Show the Up button in the action bar.
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        try {
+            handleIntent(intent);
+        } catch (InterruptedException e){
+        }
+    }
 
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+    private void handleIntent(Intent intent) throws InterruptedException {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.d("LOOOOOOL", query);
+            mContainerLayout.removeView(mEnter);
 
-        // Set up the dropdown list navigation in the action bar.
+            if (query.length() < 3){
+                Toast toast = Toast.makeText(SearchActivity.this, "Please enter more than three characters.", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.TOP, 0, 0);
+//                toast.setView(mGridLayout);
+                toast.show();
+            } else {
 
+                displayArticles(getArticles(query.toLowerCase()));
+            }
 
-//        actionBar.setListNavigationCallbacks(
-//                // Specify a SpinnerAdapter to populate the dropdown list.
-//                new ArrayAdapter<String>(
-//                        actionBar.getThemedContext(),
-//                        android.R.layout.simple_list_item_1,
-//                        android.R.id.text1,
-//                        new String[]{
-//                                getString(R.string.title_section1),
-//                                getString(R.string.title_section2),
-//                                getString(R.string.title_section3),
-//                        }),
-//                this);
+        }
     }
 
     @Override
@@ -77,6 +108,16 @@ public class SearchActivity extends ActionBarActivity implements ActionBar.OnNav
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setIconified(false);
+        searchView.onActionViewExpanded();
         return true;
     }
 
@@ -90,52 +131,68 @@ public class SearchActivity extends ActionBarActivity implements ActionBar.OnNav
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.search) {
+            return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(int position, long id) {
-        // When the given dropdown item is selected, show its contents in the
-        // container view.
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-        return true;
+    private ArrayList<Article> getArticles(String mQuery){
+        ArrayList<Article> temp = new ArrayList<Article>();
+        int i = 0;
+
+        for (Article item : ArticleEntries.ALL_ARTICLES_PS4){
+            if (item.getTitle().toLowerCase().contains(mQuery)){
+                temp.add(item);
+                i++;
+            }
+        }
+        for (Article item : ArticleEntries.ALL_ARTICLES_XBOX){
+            if (item.getTitle().toLowerCase().contains(mQuery)){
+                temp.add(item);
+                i++;
+            }
+        }
+        for (Article item : ArticleEntries.ALL_ARTICLES_WII){
+            if (item.getTitle().toLowerCase().contains(mQuery)){
+                temp.add(item);
+                i++;
+            }
+        }
+
+        return temp;
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    private void displayArticles(ArrayList<Article> articles){
+            int i = 0;
+            mGridLayout.removeAllViews();
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+            for (final Article item : articles){
+                ArticleView av = new ArticleView(getApplicationContext(), item.getImageId());
+                av.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
+                        intent.putExtra("article", item);
+                        startActivity(intent);
+                    }
+                });
+                LinearLayout rl = new LinearLayout(getApplicationContext());
+                rl.setOrientation(LinearLayout.VERTICAL);
+                TextView tv = new TextView(getApplicationContext());
+                tv.setText(Double.toString(item.getPrice()).replace(".", ",") + "€");
+                tv.setId(R.id.articlePrice);
+                rl.addView(av, 0);
+                rl.addView(tv, 1);
+                rl.setId(R.id.articleBox);
+
+                mGridLayout.addView(rl, i);
+                i++;
+
         }
 
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-            return rootView;
-        }
     }
 
 }

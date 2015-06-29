@@ -4,4 +4,28 @@
     tools:context="com.example.rakatak.liquidrakatak.SearchActivity"
     tools:ignore="MergeRootFrame" >
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2"
+        style="@style/scrollo">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="3"
+            style="@style/articleGrid"
+            android:id="@+id/articleGrid"></GridLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Please enter search input"
+        android:id="@+id/enter"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="60dp"
+        android:textColor="#ffffffff" />
+
 </FrameLayout>

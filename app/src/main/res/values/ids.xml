@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="articleBox" type="id"/>
+    <item name="articleImg" type="id"/>
+    <item name="articlePrice" type="id"/>
+
+</resources>
