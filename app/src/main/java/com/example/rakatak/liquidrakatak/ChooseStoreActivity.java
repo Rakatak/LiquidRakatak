@@ -6,12 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class GPSActivity extends ActionBarActivity {
+public class ChooseStoreActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps);
+        setContentView(R.layout.activity_choose_store);
         getWindow().setBackgroundDrawableResource(R.drawable.background_01);
 
     }
@@ -38,4 +38,5 @@ public class GPSActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

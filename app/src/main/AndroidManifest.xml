@@ -47,12 +47,9 @@
                 android:value="com.example.rakatak.liquidrakatak.MenuActivity" />
         </activity>
         <activity
-            android:name=".GPSActivity"
-            android:label="@string/title_activity_gps"
-            android:parentActivityName=".MenuActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.rakatak.liquidrakatak.MenuActivity" />
+            android:name=".ChooseStoreActivity"
+            android:label="ChooseStoreActivity"
+         >
         </activity>
         <activity
             android:name=".SearchActivity"
