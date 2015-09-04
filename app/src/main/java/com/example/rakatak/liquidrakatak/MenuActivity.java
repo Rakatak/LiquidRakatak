@@ -22,7 +22,7 @@ public class MenuActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+            setContentView(R.layout.activity_menu);
         userStore = new UserStore(this);
 
         prepareButtonMenu();
@@ -76,7 +76,7 @@ public class MenuActivity extends ActionBarActivity {
 
 
     public void prepareButtonMenu(){
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin = (Button) findViewById(R.id.btnAccount    );
         btnShop = (Button) findViewById(R.id.btnShop);
         btnSearch = (Button) findViewById(R.id.btnSearch);
         btnGPS = (Button) findViewById(R.id.btnGPS);

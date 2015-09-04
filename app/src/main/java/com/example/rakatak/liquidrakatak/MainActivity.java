@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         } catch (IOException e) {
             System.exit(0);
         }
-        Button btnOne = (Button) findViewById(R.id.startbutton);
+        Button btnOne = (Button) findViewById(R.id.btnStart);
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

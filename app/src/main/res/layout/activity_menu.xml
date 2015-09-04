@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Account"
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnAccount"
                 android:alpha="0.8"
                 android:height="150dp"
                 android:width="150dp" />
