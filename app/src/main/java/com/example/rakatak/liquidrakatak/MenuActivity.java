@@ -74,7 +74,7 @@ public class MenuActivity extends ActionBarActivity {
         });
     }
 
-
+    //hallo
     public void prepareButtonMenu(){
         btnLogin = (Button) findViewById(R.id.btnAccount    );
         btnShop = (Button) findViewById(R.id.btnShop);
